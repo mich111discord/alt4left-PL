@@ -1,4 +1,4 @@
-# alt4left (MightyMich Tools)
+# alt4left (MightyTools)
 
 > **Ergonomiczny układ polskich znaków dla leworęcznych (Lewy Ctrl + Lewy Alt = AltGr)**
 
