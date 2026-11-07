@@ -28,4 +28,4 @@ W standardowym układzie systemowym polskie litery aktywowane są kombinacją `P
 Możesz wdrożyć i uruchomić menedżer **alt4left** bezpośrednio z poziomu programu PowerShell za pomocą jednej komendy:
 
 ```powershell
-irm [https://raw.githubusercontent.com/mich111discord/alt4left-PL/refs/heads/main/install.ps1](https://raw.githubusercontent.com/mich111discord/alt4left-PL/refs/heads/main/install.ps1) | iex
+irm https://raw.githubusercontent.com/mich111discord/alt4left-PL/refs/heads/main/install.ps1 | iex
