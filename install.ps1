@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    alt4left (MightyMich Tools) - Leworęczny układ polskich znaków (Ctrl+Alt -> AltGr) przez AutoHotkey.
+    alt4left (MightyTools) - Leworęczny układ polskich znaków (Ctrl+Alt -> AltGr) przez AutoHotkey.
 .DESCRIPTION
     Interaktywny menedżer zarządzający instalacją AHK, konfiguracją układu alt4left,
     autostartem oraz całkowitą deinstalacją.
@@ -18,7 +18,7 @@ $targetScriptPath = Join-Path $startupDir "$scriptName.ahk"
 function Show-Menu {
     Clear-Host
     Write-Host "======================================================" -ForegroundColor Cyan
-    Write-Host "       alt4left (MightyMich Tools) - MENEDŻER         " -ForegroundColor Yellow
+    Write-Host "           alt4left (MightyTools) - MENEDŻER         " -ForegroundColor Yellow
     Write-Host "       Ergonomiczny układ Ctrl+Alt dla leworęcznych   " -ForegroundColor DarkCyan
     Write-Host "======================================================" -ForegroundColor Cyan
     Write-Host " [1] Zainstaluj alt4left i dodaj do autostartu"
@@ -32,7 +32,7 @@ function Show-Menu {
 function Create-AhkScript {
     $ahkContent = @"
 ; ======================================================
-; alt4left v1.0 - MightyMich Tools
+; alt4left v1.0 - MightyTools
 ; Leworęczny układ polskich znaków: Ctrl + Alt + litera
 ; ======================================================
 #NoEnv
@@ -97,7 +97,7 @@ do {
             Stop-Process -Name "AutoHotkey" -ErrorAction SilentlyContinue
             Start-Process $targetScriptPath
             
-            Write-Host "`n[+] Sukces! alt4left został zainstalowany i działa z systemem 👁️👄👁️🍺" -ForegroundColor Green
+            Write-Host "`n[+] Sukces! alt4left został zainstalowany i działa z systemem!" -ForegroundColor Green
             Pause
         }
         '2' {
