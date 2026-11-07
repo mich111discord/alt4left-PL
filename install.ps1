@@ -1,148 +1,31 @@
-<#
-.SYNOPSIS
-    alt4left (MightyMich Tools) - Leworęczny układ polskich znaków (Ctrl+Alt -> AltGr) przez AutoHotkey.
-.DESCRIPTION
-    Interaktywny menedżer zarządzający instalacją AHK, konfiguracją układu alt4left,
-    autostartem oraz całkowitą deinstalacją.
-.AUTHOR
-    MightyMich Tools
-#>
+# alt4left (MightyMich Tools)
 
-# Wymuszenie kodowania UTF-8 w konsoli
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+> **Ergonomiczny układ polskich znaków dla leworęcznych (Lewy Ctrl + Lewy Alt = AltGr)**
 
-$scriptName = "alt4left"
-$startupDir = [Environment]::GetFolderPath('Startup')
-$targetScriptPath = Join-Path $startupDir "$scriptName.ahk"
+[![Platforma Windows](https://img.shields.io/badge/Platform-Windows-blue.svg)](https://www.microsoft.com)
+[![AutoHotkey](https://img.shields.io/badge/Engine-AutoHotkey_v1-green.svg)](https://www.autohotkey.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-function Show-Menu {
-    Clear-Host
-    Write-Host "======================================================" -ForegroundColor Cyan
-    Write-Host "       alt4left (MightyMich Tools) - MENEDŻER         " -ForegroundColor Yellow
-    Write-Host "       Ergonomiczny układ Ctrl+Alt dla leworęcznych   " -ForegroundColor DarkCyan
-    Write-Host "======================================================" -ForegroundColor Cyan
-    Write-Host " [1] Zainstaluj alt4left i dodaj do autostartu"
-    Write-Host " [2] Uruchom alt4left tymczasowo na tę sesję"
-    Write-Host " [3] Usuń alt4left z autostartu (wyłącz)"
-    Write-Host " [4] Całkowicie odinstaluj alt4left oraz AutoHotkey"
-    Write-Host " [5] Wyjście"
-    Write-Host "======================================================" -ForegroundColor Cyan
-}
+## 📌 O projekcie
 
-function Create-AhkScript {
-    $ahkContent = @"
-; ======================================================
-; alt4left v1.0 - MightyMich Tools
-; Leworęczny układ polskich znaków: Ctrl + Alt + litera
-; ======================================================
-#NoEnv
-SendMode Input
-SetWorkingDir %A_ScriptDir%
+**alt4left** to lekkie, szybkie i bezobsługowe narzędzie stworzone z myślą o użytkownikach leworęcznych, którzy piszą na standardowych klawiszach i potrzebują wygodnego dostępu do polskich znaków diakrytycznych (`ą`, `ć`, `ę`, `ł`, `ń`, `ó`, `ś`, `ź`, `ż`) przy użyciu lewej ręki.
 
-<^<!z::
-GetKeyState, state, Shift
-if state = D
-    Send, Ż
-else
-    Send, ż
-return
+W standardowym układzie systemowym polskie litery aktywowane są kombinacją `Prawy Alt + litera`. Dla osób operujących myszką prawą ręką i piszących lewą ręką, natywne rozwiązanie bywa niewygodne – zwłaszcza w aplikacjach takich jak Microsoft Word, gdzie kombinacje z lewym `Ctrl + Alt` często wchodzą w konflikty ze skrótami systemowymi. **alt4left** rozwiązuje ten problem raz na zawsze na poziomie systemu operacyjnego.
 
-<^<!c::
-GetKeyState, state, Shift
-if state = D
-    Send, Ć
-else
-    Send, ć
-return
+---
 
-<^<!e::
-GetKeyState, state, Shift
-if state = D
-    Send, Ę
-else
-    Send, ę
-return
+## ⚡ Główne funkcje
 
-<^<!a::
-GetKeyState, state, Shift
-if state = D
-    Send, Ą
-else
-    Send, ą
-return
+* **Ergonomia dla leworęcznych:** Zamienia kombinację **Lewy Ctrl + Lewy Alt + Litera** na precyzyjny sygnał polskich znaków.
+* **Pełna kompatybilność z Office:** Działa bez zacięć w pakiecie Microsoft Word, omijając wewnętrzne blokady i konflikty wstążki.
+* **Interaktywny menedżer PowerShell:** Pozwala na automatyczne pobranie środowiska, konfigurację autostartu, uruchamianie tymczasowe oraz czyste usunięcie.
+* **Zero obciążenia:** Bazuje na sprawdzonym i zoptymalizowanym silniku AutoHotkey działającym w tle.
 
-<^<!s::
-GetKeyState, state, Shift
-if state = D
-    Send, Ś
-else
-    Send, ś
-return
-"@
-    Set-Content -Path $targetScriptPath -Value $ahkContent -Encoding UTF8
-}
+---
 
-do {
-    Show-Menu
-    $choice = Read-Host "Wybierz opcję (1-5)"
+## 🚀 Błyskawiczna instalacja (One-Liner)
 
-    switch ($choice) {
-        '1' {
-            Write-Host "`n[*] Sprawdzanie i instalacja środowiska AutoHotkey przez winget..." -ForegroundColor Cyan
-            winget install --id AutoHotkey.AutoHotkey -e --silent --accept-package-agreements --accept-source-agreements | Out-Null
-            
-            Write-Host "[*] Tworzenie skryptu alt4left i dodawanie do autostartu..." -ForegroundColor Cyan
-            Create-AhkScript
-            
-            Stop-Process -Name "AutoHotkey" -ErrorAction SilentlyContinue
-            Start-Process $targetScriptPath
-            
-            Write-Host "`n[+] Sukces! alt4left został zainstalowany i działa z systemem 👁️👄👁️🍺" -ForegroundColor Green
-            Pause
-        }
-        '2' {
-            Write-Host "`n[*] Uruchamianie alt4left na bieżącą sesję..." -ForegroundColor Cyan
-            winget install --id AutoHotkey.AutoHotkey -e --silent --accept-package-agreements --accept-source-agreements | Out-Null
-            
-            Create-AhkScript
-            Stop-Process -Name "AutoHotkey" -ErrorAction SilentlyContinue
-            Start-Process $targetScriptPath
-            
-            Write-Host "`n[+] alt4left został uruchomiony pomyślnie!" -ForegroundColor Green
-            Pause
-        }
-        '3' {
-            Write-Host "`n[*] Usuwanie alt4left z autostartu..." -ForegroundColor Yellow
-            if (Test-Path $targetScriptPath) {
-                Remove-Item $targetScriptPath -Force
-                Write-Host "[+] Usunięto alt4left z autostartu." -ForegroundColor Green
-            } else {
-                Write-Host "[i] alt4left nie był obecny w autostarcie." -ForegroundColor Yellow
-            }
-            Stop-Process -Name "AutoHotkey" -ErrorAction SilentlyContinue
-            Write-Host "[+] Wyłączono działające procesy AHK." -ForegroundColor Green
-            Pause
-        }
-        '4' {
-            Write-Host "`n[*] Rozpoczynanie całkowitej deinstalacji alt4left..." -ForegroundColor Yellow
-            if (Test-Path $targetScriptPath) {
-                Remove-Item $targetScriptPath -Force
-            }
-            Stop-Process -Name "AutoHotkey" -ErrorAction SilentlyContinue
+Możesz zainstalować i uruchomić menedżer **alt4left** bezpośrednio z poziomu programu PowerShell za pomocą jednej komendy:
 
-            Write-Host "[*] Odinstalowywanie AutoHotkey z systemu..." -ForegroundColor Cyan
-            winget uninstall --id AutoHotkey.AutoHotkey --silent | Out-Null
-
-            Write-Host "[+] alt4left i silnik AHK zostały całkowicie usunięte!" -ForegroundColor Cyan
-            Pause
-        }
-        '5' {
-            Write-Host "`nZamykanie menedżera alt4left. Trzymaj się!" -ForegroundColor Cyan
-            exit
-        }
-        default {
-            Write-Host "`n[-] Nie wybrano poprawnej opcji. Spróbuj ponownie." -ForegroundColor Red
-            Start-Sleep -Seconds 2
-        }
-    }
-} while ($true)
+```powershell
+irm [https://raw.githubusercontent.com/mich111discord/alt4left-PL/refs/heads/main/install.ps1](https://raw.githubusercontent.com/mich111discord/alt4left-PL/refs/heads/main/install.ps1) | iex
