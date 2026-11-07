@@ -1,6 +1,14 @@
-﻿#NoEnv
+; version=1.0.0
+; ======================================================
+; alt4left (MightyTools)
+; Leworęczny układ polskich znaków + Shift swap
+; ======================================================
+#NoEnv
 SendMode Input
 SetWorkingDir %A_ScriptDir%
+
+; Zamiana lewego Shifta na prawy Shift
+LShift::RShift
 
 <^<!z::
 GetKeyState, state, Shift
